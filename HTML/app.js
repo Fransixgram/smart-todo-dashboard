@@ -30,13 +30,30 @@ function addTask() {
     taskInput.value = '';
 }
 
-// 3. Attach Event Listeners
-// Trigger when the user clicks the button
+// 3. Function to handle actions inside the task list (Delete & Toggle Complete)
+function handleListClick(event) {
+    const targetElement = event.target;
+
+    // CASE A: User clicks the delete button
+    if (targetElement.classList.contains('delete-btn')) {
+        const itemToDelete = targetElement.parentElement;
+        itemToDelete.remove(); // Removes the <li> completely from the DOM
+    }
+
+    // CASE B: User clicks the task text to toggle completion
+    if (targetElement.classList.contains('task-text')) {
+        targetElement.classList.toggle('completed'); // Toggles a 'completed' class
+    }
+}
+
+// 4. Attach Event Listeners
 addTaskBtn.addEventListener('click', addTask);
 
-// Trigger when the user presses the 'Enter' key inside the input field
 taskInput.addEventListener('keypress', function(event) {
     if (event.key === 'Enter') {
         addTask();
     }
 });
+
+// Listen for clicks on the entire list container (Event Delegation)
+taskList.addEventListener('click', handleListClick);
